@@ -8,6 +8,8 @@ Dotenv.load('.env.development')
 
 require_relative 'lib/rack-learning'
 
-router = require_relative 'lib/rack-learning/router'
+router = Hanami::Router.new do
+  root to: Action::Greet
+end
 
 Rack::Server.start(app: router)
