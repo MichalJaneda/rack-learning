@@ -8,8 +8,6 @@ Dotenv.load('.env.development')
 
 require_relative 'lib/rack-learning'
 
-app = Proc.new do
-  ['200', {'Content-Type' => 'text/html'}, ['A barebones rack app.']]
-end
+router = require_relative 'lib/rack-learning/router'
 
-Rack::Handler::WEBrick.run app
+Rack::Server.start(app: router)
