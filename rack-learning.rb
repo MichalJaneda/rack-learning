@@ -3,7 +3,13 @@
 require 'bundler'
 require 'dotenv'
 
-Bundler.require(:development)
+Bundler.require(:default, :development)
 Dotenv.load('.env.development')
 
-require 'lib/rack-learning'
+require_relative 'lib/rack-learning'
+
+app = Proc.new do
+  ['200', {'Content-Type' => 'text/html'}, ['A barebones rack app.']]
+end
+
+Rack::Handler::WEBrick.run app
