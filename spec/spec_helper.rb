@@ -4,6 +4,8 @@ require 'dotenv'
 Bundler.require(:test)
 Dotenv.load('.env.test')
 
+require_relative '../lib/rack-learning'
+
 Dir['./spec/support/**/*.rb'].each(&method(:require))
 
 RSpec.configure do |config|
