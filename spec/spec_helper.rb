@@ -1,4 +1,8 @@
-require 'pry'
+require 'bundler'
+require 'dotenv'
+
+Bundler.require(:test)
+Dotenv.load('.env.test')
 
 Dir['./spec/support/**/*.rb'].each(&method(:require))
 
