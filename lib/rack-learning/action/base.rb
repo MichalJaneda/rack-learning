@@ -1,12 +1,9 @@
 module Action
   class Base
-    def initialize
-      @response = ::Rack::Response.new
-    end
-
     # @param [Hash] env
     # @return [Rack::Response]
     def call(env)
+      @response = ::Rack::Response.new
       @request = ::Rack::Request.new(env)
       handle
       response
