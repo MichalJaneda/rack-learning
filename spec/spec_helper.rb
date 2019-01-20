@@ -18,4 +18,12 @@ RSpec.configure do |config|
   end
 
   config.shared_context_metadata_behavior = :apply_to_host_groups
+
+  config.define_derived_metadata(file_path: /spec\/action\//) do |metadata|
+    metadata[:type] = :action
+  end
+
+  config.before(:each, action: true) do |example|
+    example.run
+  end
 end

@@ -1,5 +1,7 @@
 RSpec.describe Action::Base do
-  subject { described_class.new.call(env) }
+  describe '#call' do
+    subject { action.call }
 
-  it { expect { subject }.to raise_error { NotImplementedError } }
+    it { expect { subject }.to raise_error { NotImplementedError } }
+  end
 end
