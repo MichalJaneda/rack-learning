@@ -1,7 +1,6 @@
 require 'bundler'
-require 'dotenv'
 
-Bundler.require(:test)
+Bundler.require(:default, :test)
 Dotenv.load('.env.test')
 
 require_relative '../lib/rack-learning'
@@ -23,7 +22,5 @@ RSpec.configure do |config|
     metadata[:type] = :action
   end
 
-  config.before(:each, action: true) do |example|
-    example.run
-  end
+  config.include(SharedContext::Action, type: :action)
 end

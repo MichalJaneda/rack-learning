@@ -1,22 +1,23 @@
 module Action
   class Base
+    def initialize
+      @response = ::Rack::Response.new
+    end
+
     # @param [Hash] env
     # @return [Rack::Response]
     def call(env)
-      handle(::Rack::Request.new(env))
+      @request = ::Rack::Request.new(env)
+      handle
       response
     end
 
     private
 
-    # @param [Rack::Request] request
-    # @return []
-    def handle(request)
-      raise NotImplementedError
-    end
+    attr_reader :request, :response
 
-    def response
-      @response ||= ::Rack::Response.new
+    def handle
+      raise NotImplementedError
     end
   end
 end
