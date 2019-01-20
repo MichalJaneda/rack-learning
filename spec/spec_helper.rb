@@ -1,7 +1,7 @@
 require 'bundler'
 
 Bundler.require(:default, :test)
-Dotenv.load('.env.test')
+Dotenv.load('.env.testing')
 
 require_relative '../lib/rack-learning'
 
