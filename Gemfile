@@ -5,9 +5,11 @@ source "https://rubygems.org"
 git_source(:github) { |repo_name| "https://github.com/#{repo_name}" }
 
 gem 'dotenv'
+gem 'pg'
 gem 'hanami-router'
 gem 'rack'
 gem 'rake'
+gem 'sequel'
 
 group :test do
   gem 'rspec'

@@ -5,6 +5,8 @@ Dotenv.load('.env.testing')
 
 require_relative '../lib/rack-learning'
 
+require 'open3'
+
 Dir['./spec/support/**/*.rb'].each(&method(:require))
 
 RSpec.configure do |config|
