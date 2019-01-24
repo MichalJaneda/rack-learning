@@ -23,4 +23,5 @@ RSpec.configure do |config|
   end
 
   config.include(SharedContext::Action, type: :action)
+  config.include(SharedContext::Task, type: :task)
 end
