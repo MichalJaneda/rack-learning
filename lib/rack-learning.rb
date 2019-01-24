@@ -1,3 +1,6 @@
+# errrors
+require_relative 'rack-learning/error/thread_execution_error'
+
 # routing
 require_relative 'rack-learning/routing/router'
 
@@ -7,3 +10,6 @@ require_relative 'rack-learning/action/greet'
 
 # values
 require_relative 'rack-learning/value/query/db'
+
+# connection
+require_relative 'rack-learning/connection'

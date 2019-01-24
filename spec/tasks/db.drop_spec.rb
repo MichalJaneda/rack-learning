@@ -1,4 +1,4 @@
-RSpec.describe 'db:create', type: :task do
+RSpec.describe 'db:drop', type: :task do
   describe '.invoke' do
     let!(:db_name) { 'some_random_db_name_ensure_that_this_does_not_exist' }
 
@@ -7,16 +7,16 @@ RSpec.describe 'db:create', type: :task do
     before { stub_const('::Value::Query::DB::NAME', db_name) }
 
     context 'database does not exists' do
-      it 'creates new database' do
+      it 'raises error' do
         system("dropdb #{db_name} 2> /dev/null")
-        expect { subject }.to_not raise_error
+        expect { subject }.to raise_error(ThreadExecutionError)
       end
     end
 
     context 'database already exists' do
-      it 'raises error' do
+      it 'drops database' do
         system("createdb #{db_name} 2> /dev/null")
-        expect { subject }.to raise_error(ThreadExecutionError)
+        expect { subject }.to_not raise_error
       end
     end
   end
