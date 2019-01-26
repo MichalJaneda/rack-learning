@@ -1,4 +1,4 @@
-describe ValidationUserCreate do
+describe ValidationUser do
   it { is_expected.to be_failure }
 
   it { expect(errors).to eq(email: ['is missing'], name: ['is missing']) }
