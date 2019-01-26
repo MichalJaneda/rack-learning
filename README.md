@@ -15,3 +15,4 @@
 * Capistrano
 * Sequel
     * Tables not using surrogate keys
+    * Using repositories
