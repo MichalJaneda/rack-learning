@@ -16,7 +16,7 @@ RSpec.describe 'db:create', type: :task do
     context 'database already exists' do
       it 'raises error' do
         system("createdb #{db_name} 2> /dev/null")
-        expect { subject }.to raise_error(ThreadExecutionError)
+        expect { subject }.to raise_error(CommandExecutionError)
       end
     end
   end

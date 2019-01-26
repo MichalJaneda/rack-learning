@@ -9,7 +9,7 @@ RSpec.describe 'db:drop', type: :task do
     context 'database does not exists' do
       it 'raises error' do
         system("dropdb #{db_name} 2> /dev/null")
-        expect { subject }.to raise_error(ThreadExecutionError)
+        expect { subject }.to raise_error(CommandExecutionError)
       end
     end
 
