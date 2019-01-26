@@ -10,7 +10,7 @@ namespace :db do
   end
 
   desc 'Create new migration file in format <timestamp>_<name>'
-  task :generate_migration, [:name] do |_task, args|
+  task :generate_migration, [:name] do
     raise InvalidTaskParamsError, 'name' unless args.name
     file_name = "#{Time.now.to_i}_#{args.name.gsub(' ', '_')}.rb"
     File.write("#{Dir.pwd}/db/migrations/#{file_name}", <<~MIGRATION
