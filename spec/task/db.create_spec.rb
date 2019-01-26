@@ -1,4 +1,4 @@
-RSpec.describe 'db:create', type: :task do
+RSpec.describe 'db:create' do
   describe '.invoke' do
     let!(:db_name) { 'some_random_db_name_ensure_that_this_does_not_exist' }
 

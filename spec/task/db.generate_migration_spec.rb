@@ -1,4 +1,4 @@
-RSpec.describe 'db:generate_migration', type: :task do
+RSpec.describe 'db:generate_migration' do
   describe '.invoke' do
     let!(:migrations_dir) { "#{Dir.pwd}/db/migrations" }
     let!(:current_time) { Time.now }
