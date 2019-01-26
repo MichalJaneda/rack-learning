@@ -13,6 +13,7 @@ gem 'rake'
 gem 'sequel'
 
 group :test do
+  gem 'database_cleaner'
   gem 'rspec'
   gem 'timecop'
 end

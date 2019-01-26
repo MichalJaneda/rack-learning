@@ -17,5 +17,5 @@ Dir.glob(File.join("#{Dir.pwd}/lib", '**', '*.rb'), &method(:require))
 
 unless %w(db:create db:migrate).include?(ARGV[0])
   Sequel.extension (:migration)
-  Sequel::Migrator.check_current(Connection.new.connection, "#{Dir.pwd}/db/migrations")
+  Sequel::Migrator.check_current(Connection.get_connection, "#{Dir.pwd}/db/migrations")
 end

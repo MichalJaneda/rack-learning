@@ -8,6 +8,11 @@ require 'open3'
 Dir.glob(File.join("#{Dir.pwd}/lib", '**', '*.rb'), &method(:require))
 Dir['./spec/support/**/*.rb'].each(&method(:require))
 
+Sequel.extension (:migration)
+Sequel::Migrator.check_current(Connection.get_connection, "#{Dir.pwd}/db/migrations")
+
+SPECIAL_TEST_TYPES = %i(action task validation).freeze
+
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true
@@ -19,19 +24,25 @@ RSpec.configure do |config|
 
   config.shared_context_metadata_behavior = :apply_to_host_groups
 
-  config.define_derived_metadata(file_path: /spec\/action\//) do |metadata|
-    metadata[:type] = :action
+  config.before(:suite) do
+    DatabaseCleaner.strategy = :transaction
+    DatabaseCleaner.clean_with(:truncation)
   end
 
-  config.define_derived_metadata(file_path: /spec\/task\//) do |metadata|
-    metadata[:type] = :task
+  config.around(:each) do |example|
+    DatabaseCleaner.cleaning do
+      example.run
+    end
   end
 
-  config.define_derived_metadata(file_path: /spec\/validation\//) do |metadata|
-    metadata[:type] = :validation
+  SPECIAL_TEST_TYPES.each do |test_type|
+    config.define_derived_metadata(file_path: Regexp.new("spec/#{test_type}/")) do |metadata|
+      metadata[:type] = test_type
+    end
   end
 
-  config.include(SharedContext::Action, type: :action)
-  config.include(SharedContext::Task, type: :task)
-  config.include(SharedContext::Validation, type: :validation)
+  SPECIAL_TEST_TYPES.each do |test_type|
+    config.include(Object.const_get("SharedContext::#{test_type.capitalize}"),
+                   type: test_type)
+  end
 end
