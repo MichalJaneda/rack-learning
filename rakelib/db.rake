@@ -10,7 +10,7 @@ namespace :db do
   end
 
   desc 'Create new migration file in format <timestamp>_<name>'
-  task :generate_migration, [:name] do
+  task :generate_migration, [:name] do |_t, args|
     raise InvalidTaskParamsError, 'name' unless args.name
     file_name = "#{Time.now.to_i}_#{args.name.gsub(' ', '_')}.rb"
     File.write("#{Dir.pwd}/db/migrations/#{file_name}", <<~MIGRATION
@@ -28,7 +28,7 @@ namespace :db do
   desc 'Run migrations'
   task :migrate, [:version] do |_t, args|
     Sequel.extension (:migration)
-    Sequel::TimestampMigrator.new(Connection.new.connection,
+    Sequel::TimestampMigrator.new(Connection.get_connection,
                                   'db/migrations',
                                   { target: args.version&.to_i })
       .run

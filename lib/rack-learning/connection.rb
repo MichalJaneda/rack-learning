@@ -1,5 +1,5 @@
 class Connection
-  def connection
+  def self.get_connection
     @@connection ||= ::Sequel.connect(adapter: ::Value::Query::DB::ADAPTER,
                                       host: ::Value::Query::DB::HOST,
                                       database: ::Value::Query::DB::NAME,

@@ -1,9 +1,7 @@
-ValidationUserCreate = Dry::Validation.Schema do
-  config do
-    option :record
-
+ValidationUser = Dry::Validation.Schema(AppSchema) do
+  configure do
     def unique?(attr_name, value)
-      record.class.where.not(id: record.id).where(attr_name => value).empty?
+      Query::Repository::Users.new.where(attr_name => value).empty?
     end
   end
 
