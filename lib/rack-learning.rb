@@ -1,5 +1,6 @@
 # errrors
-require_relative 'rack-learning/error/thread_execution_error'
+require_relative 'rack-learning/error/command_execution_error'
+require_relative 'rack-learning/error/invalid_task_params_error'
 
 # routing
 require_relative 'rack-learning/routing/router'

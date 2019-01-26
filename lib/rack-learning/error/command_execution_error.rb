@@ -1,1 +1,1 @@
-class CommandExecutionError < StandardError; end
+class CommandExecutionError < Exception; end
