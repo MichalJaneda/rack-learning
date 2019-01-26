@@ -2,8 +2,9 @@ require 'bundler'
 require 'dotenv'
 require 'open3'
 require 'logger'
+require 'uri'
 
 Bundler.require(:default, :development)
 Dotenv.load('.env.development')
 
-require_relative 'lib/rack-learning'
+Dir.glob(File.join("#{Dir.pwd}/lib", '**', '*.rb'), &method(:require))

@@ -41,11 +41,11 @@ namespace :db do
   # @raise [CommandExecutionError] if command response code not eq to 0
   def run_command!(command)
     execution = Open3.capture3(command)
-    raise CommandExecutionError, execution.second unless execution.last.to_i.zero?
+    raise CommandExecutionError, execution[1] unless execution[2].to_i.zero?
     {
-      stdin: execution.first,
-      stdout: execution.second,
-      stderr: execution.last
+      stdin: execution[0],
+      stdout: execution[1],
+      stderr: execution[2]
     }
   end
 end

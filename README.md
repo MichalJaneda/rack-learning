@@ -11,6 +11,7 @@
 * Dry-auto_inject
 * Dry-container
 * Dry-predicate
+* Dry-validation
 * Capistrano
 * Sequel
     * Tables not using surrogate keys
