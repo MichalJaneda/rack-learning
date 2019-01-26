@@ -25,6 +25,15 @@ namespace :db do
         )
   end
 
+  desc 'Run migrations'
+  task :migrate, [:version] do |_t, args|
+    Sequel.extension (:migration)
+    Sequel::TimestampMigrator.new(Connection.new.connection,
+                                  'db/migrations',
+                                  { target: args.version&.to_i })
+      .run
+  end
+
   private
 
   # @param [String] command
