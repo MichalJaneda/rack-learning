@@ -3,10 +3,9 @@ require 'bundler'
 Bundler.require(:default, :test)
 Dotenv.load('.env.testing')
 
-require_relative '../lib/rack-learning'
-
 require 'open3'
 
+Dir.glob(File.join("#{Dir.pwd}/lib", '**', '*.rb'), &method(:require))
 Dir['./spec/support/**/*.rb'].each(&method(:require))
 
 RSpec.configure do |config|
@@ -24,6 +23,15 @@ RSpec.configure do |config|
     metadata[:type] = :action
   end
 
+  config.define_derived_metadata(file_path: /spec\/task\//) do |metadata|
+    metadata[:type] = :task
+  end
+
+  config.define_derived_metadata(file_path: /spec\/validation\//) do |metadata|
+    metadata[:type] = :validation
+  end
+
   config.include(SharedContext::Action, type: :action)
   config.include(SharedContext::Task, type: :task)
+  config.include(SharedContext::Validation, type: :validation)
 end
