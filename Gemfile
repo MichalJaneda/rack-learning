@@ -13,6 +13,7 @@ gem 'sequel'
 
 group :test do
   gem 'rspec'
+  gem 'timecop'
 end
 
 group :development, :test do
