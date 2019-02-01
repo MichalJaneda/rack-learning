@@ -16,5 +16,14 @@ module Action
     def handle
       raise NotImplementedError
     end
+
+    def handle_failure(validation)
+      response.status = 422
+      response.write(validation.errors)
+    end
+
+    def params
+      request.params.map { |k, v| [k.to_sym, v] }.to_h
+    end
   end
 end
