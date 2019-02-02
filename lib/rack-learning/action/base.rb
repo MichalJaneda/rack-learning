@@ -3,7 +3,7 @@ module Action
     # @param [Hash] env
     # @return [Rack::Response]
     def call(env)
-      @response = ::Rack::Response.new
+      create_empty_response
       @request = ::Rack::Request.new(env)
       handle
       response
@@ -24,6 +24,20 @@ module Action
 
     def params
       request.params.map { |k, v| [k.to_sym, v] }.to_h
+    end
+
+    def create_empty_response
+      @response = ::Rack::Response.new('',
+                                       200,
+                                       { 'Content-Type' => 'application/json' })
+    end
+
+    def serialize(entities, serializer)
+      if entities.is_a?(::Array)
+        reponse.write(entities.map { |entity| serializer.new(entity).to_h }.to_json)
+      else
+        response.write(serializer.new(entities).to_h.to_json)
+      end
     end
   end
 end

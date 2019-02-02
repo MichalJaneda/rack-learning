@@ -16,6 +16,7 @@ group :test do
   gem 'database_cleaner'
   gem 'rspec'
   gem 'timecop'
+  gem 'faker'
 end
 
 group :development, :test do
