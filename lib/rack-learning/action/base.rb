@@ -27,14 +27,13 @@ module Action
     end
 
     def create_empty_response
-      @response = ::Rack::Response.new('',
-                                       200,
-                                       { 'Content-Type' => 'application/json' })
+      @response = ::Rack::Response.new
+      response['Content-Type'] = 'application/json'
     end
 
     def serialize(entities, serializer)
       if entities.is_a?(::Array)
-        reponse.write(entities.map { |entity| serializer.new(entity).to_h }.to_json)
+        response.write(entities.map { |entity| serializer.new(entity).to_h }.to_json)
       else
         response.write(serializer.new(entities).to_h.to_json)
       end

@@ -8,7 +8,8 @@ module Action
         return handle_failure(validation) if validation.failure?
         response.status = 201
         Query::Repository::Users.insert(params)
-        response.write(params)
+        serialize(params,
+                  ::Serializer::User)
       end
     end
   end

@@ -36,7 +36,14 @@ RSpec.describe Routing::Router do
       it_behaves_like 'routes correctly'
     end
 
-    describe 'POST /users' do
+    describe 'GET /user' do
+      let(:klass) { Action::User::List }
+      let(:path) { '/user' }
+
+      it_behaves_like 'routes correctly'
+    end
+
+    describe 'POST /user' do
       let(:klass) { Action::User::Create }
       let(:path) { '/user' }
       let(:method) { 'POST' }

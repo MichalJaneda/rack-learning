@@ -27,7 +27,7 @@ RSpec.describe Action::User::Create do
       end
 
       context 'user email already taken' do
-        before {  Query::Repository::Users.insert(email: params[:email], name: 'John Doe') }
+        before { Query::Repository::Users.insert(email: params[:email], name: 'John Doe') }
 
         it_behaves_like 'user creation failed'
       end
