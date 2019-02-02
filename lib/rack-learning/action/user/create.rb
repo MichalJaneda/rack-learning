@@ -7,7 +7,7 @@ module Action
         validation = ValidationUser.(params)
         return handle_failure(validation) if validation.failure?
         response.status = 201
-        Query::Repository::Users.new.insert(params)
+        Query::Repository::Users.insert(params)
         response.write(params)
       end
     end

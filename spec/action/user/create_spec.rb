@@ -4,7 +4,7 @@ RSpec.describe Action::User::Create do
 
     it 'does not create new user' do
       expect { subject }
-        .to_not change { Query::Repository::Users.new.count }
+        .to_not change { Query::Repository::Users.count }
     end
   end
 
@@ -22,12 +22,12 @@ RSpec.describe Action::User::Create do
 
       it 'created new user' do
         subject
-        expect(Query::Repository::Users.new.where(email: params[:email]))
+        expect(Query::Repository::Users.where(email: params[:email]))
           .to_not be_empty
       end
 
       context 'user email already taken' do
-        before {  Query::Repository::Users.new.insert(email: params[:email], name: 'John Doe') }
+        before {  Query::Repository::Users.insert(email: params[:email], name: 'John Doe') }
 
         it_behaves_like 'user creation failed'
       end

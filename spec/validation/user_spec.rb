@@ -40,7 +40,7 @@ describe ValidationUser do
       it { expect(errors).to_not have_key(:email) }
 
       context 'is taken' do
-        before {  Query::Repository::Users.new.insert(email: email, name: 'John Doe') }
+        before { Query::Repository::Users.insert(email: email, name: 'John Doe') }
 
         it { is_expected.to be_failure }
 

@@ -1,7 +1,7 @@
 ValidationUser = Dry::Validation.Schema(AppSchema) do
   configure do
     def unique?(attr_name, value)
-      Query::Repository::Users.new.where(attr_name => value).empty?
+      Query::Repository::Users.where(attr_name => value).empty?
     end
   end
 
