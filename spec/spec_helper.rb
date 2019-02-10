@@ -12,7 +12,7 @@ Sequel.extension (:migration)
 Sequel::Migrator.check_current(DATABASE_CONNECTION_CONTAINER.resolve(:connection),
                                "#{Dir.pwd}/db/migrations")
 
-SPECIAL_TEST_TYPES = %i(action task validation).freeze
+SPECIAL_TEST_TYPES = %i(action task validation filter).freeze
 
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
@@ -31,7 +31,11 @@ RSpec.configure do |config|
   end
 
   config.around(:each) do |example|
-    DatabaseCleaner.cleaning do
+    if example.metadata[:type] != :filter
+      DatabaseCleaner.cleaning do
+        example.run
+      end
+    else
       example.run
     end
   end
