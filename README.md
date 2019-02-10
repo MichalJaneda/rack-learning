@@ -9,8 +9,10 @@
         * Migrate Timestampable migrations
 * Trailblazer
 * Dry-auto_inject
+    * Inject db connection
 * Dry-container
 * Dry-predicate
+    * Limiting query reducer
 * Dry-validation
 * Capistrano
 * Sequel
