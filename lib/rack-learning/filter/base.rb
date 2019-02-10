@@ -1,8 +1,12 @@
 module Filter
   class Base
-    def initialize(query, where = {})
+    def initialize(query,
+                   where = {},
+                   default: nil,
+                   check: ->() { true })
       @query = query
       @filter = where[self.class.name.split('::').last.downcase.to_sym] || {}
+      @default = default
     end
 
     def call
@@ -12,7 +16,7 @@ module Filter
 
     private
 
-    attr_reader :query, :filter
+    attr_reader :query, :filter, :default
 
     def apply
       raise NotImplementedError
