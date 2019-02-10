@@ -22,10 +22,6 @@ module Action
       response.write(validation.errors)
     end
 
-    def params
-      request.params.map { |k, v| [k.to_sym, v] }.to_h
-    end
-
     def create_empty_response
       @response = ::Rack::Response.new
       response['Content-Type'] = 'application/json'
@@ -37,6 +33,10 @@ module Action
       else
         response.write(serializer.new(entities).to_h.to_json)
       end
+    end
+
+    def params
+      @params ||= request.params.deep_symbolize_keys
     end
   end
 end
