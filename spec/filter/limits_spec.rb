@@ -1,26 +1,44 @@
 RSpec.describe Filter::Limit do
-  let(:params) { { where: {} } }
+  let(:default) { described_class::DEFAULT }
 
-  let(:query) { Sequel.mock.dataset.from(:test).extension(:sequel_4_dataset_methods) }
+  let(:limit) { default }
 
-  describe '#call' do
-    subject { described_class.new(query, params[:where]).call.sql }
+  context 'empty params' do
+    it { is_expected.to end_with("LIMIT #{default}") }
+  end
 
-    context 'empty params' do
-      it { is_expected.to eq(query.sql) }
-    end
+  context 'params match' do
+    let(:params) { { where: { limit: limit } } }
 
-    context 'params match' do
-      let(:user_name) { Faker::Name.name }
-      let(:params) { { where: { after: { name: user_name } } } }
+    context 'value' do
+      context 'less than default' do
+        let(:limit) { default - 1 }
 
-      it { is_expected.to include("WHERE (name > '#{user_name}')") }
+        it { is_expected.to end_with("LIMIT #{limit}") }
+      end
 
-      context 'multiple options passed' do
-        let(:last_name) { Faker::Name.last_name }
-        let(:params) { { where: { after: { name: user_name, surname: last_name } } } }
+      context 'bigger than maximal' do
+        let(:limit) { ::Value::Filter::Limit::MAX + 1 }
 
-        it { is_expected.to include("WHERE ((name > '#{user_name}') AND (surname > '#{last_name}'))") }
+        it { is_expected.to end_with("LIMIT #{default}") }
+      end
+
+      context 'less than maximal' do
+        let(:limit) { ::Value::Filter::Limit::MAX - 1 }
+
+        it { is_expected.to end_with("LIMIT #{limit}") }
+      end
+
+      context 'non-positive' do
+        let(:limit) { 0 }
+
+        it { is_expected.to end_with("LIMIT #{default}") }
+      end
+
+      context 'is not integer' do
+        let(:limit) { 0.1 }
+
+        it { is_expected.to end_with("LIMIT #{default}") }
       end
     end
   end
