@@ -3,7 +3,7 @@ module Serializer
     ATTRIBUTES = {}
 
     def initialize(record)
-      @record = record.deep_symbolize_keys
+      @record = record.to_h.deep_symbolize_keys
     end
 
     def to_h

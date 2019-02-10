@@ -16,7 +16,7 @@ module Filter
     private
 
     def apply
-      correct_limit = LIMIT_RULE.().(filter).success? ? filter : DEFAULT
+      correct_limit = LIMIT_RULE.().(filter.to_i).success? ? filter : DEFAULT
       @query = query.limit(correct_limit)
     end
   end
