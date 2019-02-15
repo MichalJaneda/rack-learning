@@ -8,8 +8,7 @@ module Query
       private
 
       def self.dataset
-        table = self.name.split('::').last.downcase.to_sym
-        DATABASE_CONNECTION_CONTAINER.resolve(:connection)[table]
+        Object.const_get("Model::#{self.name.split('::').last}")
       end
     end
   end

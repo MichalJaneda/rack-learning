@@ -1,6 +1,6 @@
 module Query
   module Repository
-    class Posts < Base
+    class Post < Base
     end
   end
 end
