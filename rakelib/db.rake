@@ -28,7 +28,7 @@ namespace :db do
   desc 'Run migrations'
   task :migrate, [:version] do |_t, args|
     Sequel.extension (:migration)
-    Sequel::TimestampMigrator.new(Connection.get_connection,
+    Sequel::TimestampMigrator.new(DATABASE_CONNECTION_CONTAINER.resolve(:connection),
                                   'db/migrations',
                                   { target: args.version&.to_i })
       .run
