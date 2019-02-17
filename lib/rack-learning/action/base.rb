@@ -52,5 +52,22 @@ module Action
     def params
       @params ||= request.params.deep_symbolize_keys
     end
+
+    def headers
+      @headers = Hash[*request.env.select {|k,v| k.start_with? 'HTTP_'}
+                         .collect {|k,v| [k.sub(/^HTTP_/, ''), v]}
+                         .collect {|k,v| [k.split('_').collect(&:capitalize).join('-').to_sym, v]}
+                         .sort
+                         .flatten].symbolize_keys
+
+    end
+
+    def authorize!
+      raise UnauthorizedError if headers[:Authorization].nil? || user.nil?
+    end
+
+    def user
+      @user ||= Model::User.find(token: headers[:Authorization].sub('Bearer ', ''))
+    end
   end
 end
