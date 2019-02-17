@@ -43,9 +43,9 @@ module Action
 
     def serialize(entities, serializer)
       if entities.is_a?(::Array)
-        response.write(entities.map { |entity| serializer.new(entity).to_h }.to_json)
+        response.write(entities.map { |entity| serializer.new(entity.values).to_h }.to_json)
       else
-        response.write(serializer.new(entities).to_h.to_json)
+        response.write(serializer.new(entities.values).to_h.to_json)
       end
     end
 

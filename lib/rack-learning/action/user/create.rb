@@ -4,11 +4,11 @@ module Action
       private
 
       def handle
-        validation = ValidationUser.(params)
+        validation = ValidationUser.with(repository: Query::Repository::User).(params)
         return handle_failure(validation) if validation.failure?
         response.status = 201
-        Query::Repository::Users.insert(params)
-        serialize(params,
+        Query::Repository::User.insert(params)
+        serialize(Model::User.find(email: params[:email]),
                   ::Serializer::User)
       end
     end

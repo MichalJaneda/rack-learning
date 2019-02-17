@@ -4,7 +4,7 @@ module Action
       private
 
       def handle
-        reduce_and_serialize(Query::Repository::Users.order(:email),
+        reduce_and_serialize(Query::Repository::User.order(:email),
                              ::Serializer::User)
       end
     end

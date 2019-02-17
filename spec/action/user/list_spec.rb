@@ -4,7 +4,7 @@ RSpec.describe Action::User::List do
   it { expect(json_response).to be_empty }
 
   context 'users existing' do
-    let!(:inserts) { Query::Repository::Users.import(%i(name email), users) }
+    let!(:inserts) { Query::Repository::User.import(%i(name email), users) }
 
     let(:users) { Array.new(20) { |i| [Faker::Name.name, "name.#{(i + 64).chr}@example.com"] } }
 
