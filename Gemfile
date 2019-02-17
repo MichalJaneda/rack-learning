@@ -11,6 +11,7 @@ gem 'hanami-router'
 gem 'rack'
 gem 'rake'
 gem 'sequel'
+gem 'trailblazer'
 
 group :test do
   gem 'database_cleaner'
