@@ -20,14 +20,20 @@ RSpec.describe Action::User::Create do
 
       it { expect(subject.status).to eq(201) }
 
-      it 'created new user' do
+      it 'creates new user' do
         subject
         expect(Query::Repository::User.where(email: params[:email]))
           .to_not be_empty
       end
 
+      it 'attaches token' do
+        subject
+        expect(Query::Repository::User.find(email: params[:email]).token)
+          .to eq(Digest::MD5.hexdigest(params[:email]))
+      end
+
       context 'user email already taken' do
-        before { Query::Repository::User.insert(email: params[:email], name: 'John Doe') }
+        before { Query::Repository::User.insert(email: params[:email], name: 'John Doe', token: Digest::MD5.hexdigest(params[:email])) }
 
         it_behaves_like 'user creation failed'
       end
