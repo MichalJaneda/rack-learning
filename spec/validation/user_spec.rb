@@ -1,4 +1,6 @@
 describe ValidationUser do
+  subject { described_class.with(repository: Query::Repository::User).(attributes) }
+
   it { is_expected.to be_failure }
 
   it { expect(errors).to eq(email: ['is missing'], name: ['is missing']) }
@@ -40,7 +42,7 @@ describe ValidationUser do
       it { expect(errors).to_not have_key(:email) }
 
       context 'is taken' do
-        before { Query::Repository::Users.insert(email: email, name: 'John Doe') }
+        before { Query::Repository::User.insert(email: email, name: 'John Doe') }
 
         it { is_expected.to be_failure }
 
