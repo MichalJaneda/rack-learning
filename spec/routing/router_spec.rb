@@ -50,5 +50,13 @@ RSpec.describe Routing::Router do
 
       it_behaves_like 'routes correctly'
     end
+
+    describe 'POST /post' do
+      let(:klass) { Action::Post::Create }
+      let(:path) { '/post' }
+      let(:method) { 'POST' }
+
+      it_behaves_like 'routes correctly'
+    end
   end
 end

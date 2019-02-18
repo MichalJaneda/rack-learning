@@ -6,6 +6,7 @@ module Routing
         get '/greet', to: Action::Greet
         get '/user', to: Action::User::List
         post '/user', to: Action::User::Create
+        post '/post', to: Action::Post::Create
       end
     end
   end
