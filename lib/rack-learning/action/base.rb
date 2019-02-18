@@ -5,7 +5,7 @@ module Action
     def call(env)
       create_empty_response
       @request = ::Rack::Request.new(env)
-      handle
+      process
       response
     end
 
@@ -15,6 +15,12 @@ module Action
 
     def handle
       raise NotImplementedError
+    end
+
+    def process
+      handle
+    rescue UnauthorizedError
+      response.status = 403
     end
 
     def handle_failure(validation)
