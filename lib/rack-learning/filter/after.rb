@@ -3,7 +3,7 @@ module Filter
     private
 
     def apply
-      @query = filter.reduce(query) do |q, (column, value)|
+      @query = (filter || {}).reduce(query) do |q, (column, value)|
         q.where(::Sequel.lit("#{column} > :#{column}",
                              column => value) )
       end

@@ -4,14 +4,18 @@ RSpec.describe Action::User::List do
   it { expect(json_response).to be_empty }
 
   context 'users existing' do
-    let!(:inserts) { Query::Repository::User.import(%i(name email), users) }
-
-    let(:users) { Array.new(20) { |i| [Faker::Name.name, "name.#{(i + 64).chr}@example.com"] } }
+    let!(:users) do
+      [
+        create(:user, email: 'A@example.com'),
+        *create_list(:user, 18),
+        create(:user, email: 'z@example.com')
+      ]
+    end
 
     it { expect(json_response.count).to eq(10) }
 
     context 'params' do
-      let(:email) { users.first.last }
+      let(:email) { users.first.email }
 
       context 'filter' do
         context 'after first email' do
@@ -38,7 +42,7 @@ RSpec.describe Action::User::List do
 
         it { expect(json_response.count).to eq(1) }
 
-        it { expect(returned_emails).to contain_exactly(users[1].last) }
+        it { expect(returned_emails).to contain_exactly(users.map(&:email).sort[1]) }
       end
     end
   end

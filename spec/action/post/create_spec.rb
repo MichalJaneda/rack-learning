@@ -4,12 +4,7 @@ RSpec.describe Action::Post::Create do
   end
 
   context 'authorized' do
-    let(:email) { Faker::Internet.email }
-    let(:user) do
-      Model::User.find(email: Query::Repository::User.insert(email: email,
-                                                             name: Faker::Internet.name,
-                                                             token: Digest::MD5.hexdigest(email)))
-    end
+    let(:user) { create(:user) }
 
     let(:headers) { { Authorization: "Bearer #{user.token}"} }
 

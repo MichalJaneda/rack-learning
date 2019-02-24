@@ -1,5 +1,5 @@
 RSpec.describe Query::Mapper::User do
-  let(:entities) { [ { email: Faker::Internet.email } ] }
+  let(:entities) { [attributes_for(:user)] }
 
   subject { described_class.new(entities).() }
 

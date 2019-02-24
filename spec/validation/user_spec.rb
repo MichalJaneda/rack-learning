@@ -42,7 +42,7 @@ describe ValidationUser do
       it { expect(errors).to_not have_key(:email) }
 
       context 'is taken' do
-        before { Query::Repository::User.insert(email: email, name: 'John Doe') }
+        before { create(:user, email:  'user@example.com') }
 
         it { is_expected.to be_failure }
 

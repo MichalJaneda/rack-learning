@@ -28,22 +28,21 @@ RSpec.describe Action::Base do
       end
     end
 
-    it { expect { subject }.to raise_error(UnauthorizedError) }
+    it { expect(subject.status).to eq(403) }
 
     context 'authorization header present' do
-      let!(:email) { Faker::Internet.email }
-      let!(:user) { Query::Repository::User.insert(email: email, name: 'John Doe', token: Digest::MD5.hexdigest(email)) }
+      let!(:user) { create(:user) }
 
       let(:headers) { { Authorization: "Bearer #{token}"} }
 
       context 'mismatch' do
         let(:token) { '' }
 
-        it { expect { subject }.to raise_error(UnauthorizedError) }
+        it { expect(subject.status).to eq(403) }
       end
 
       context 'is correct' do
-        let(:token) { Digest::MD5.hexdigest(user) }
+        let(:token) { Digest::MD5.hexdigest(user.email) }
 
         it { expect { subject }.to_not raise_error }
       end

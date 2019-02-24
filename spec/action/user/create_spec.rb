@@ -4,7 +4,7 @@ RSpec.describe Action::User::Create do
 
     it 'does not create new user' do
       expect { subject }
-        .to_not change { Query::Repository::User.count }
+        .to_not change { Model::User.count }
     end
   end
 
@@ -16,24 +16,24 @@ RSpec.describe Action::User::Create do
     end
 
     context 'are correct' do
-      let(:params) { { name: 'John', email: 'user@example.com' } }
+      let(:params) { attributes_for(:user).slice(:name, :email) }
 
       it { expect(subject.status).to eq(201) }
 
       it 'creates new user' do
         subject
-        expect(Query::Repository::User.where(email: params[:email]))
-          .to_not be_empty
+        expect(Model::User.find(email: params[:email]))
+          .to be_instance_of(Model::User)
       end
 
       it 'attaches token' do
         subject
-        expect(Query::Repository::User.find(email: params[:email]).token)
+        expect(Model::User.find(email: params[:email]).token)
           .to eq(Digest::MD5.hexdigest(params[:email]))
       end
 
       context 'user email already taken' do
-        before { Query::Repository::User.insert(email: params[:email], name: 'John Doe', token: Digest::MD5.hexdigest(params[:email])) }
+        before { create(:user, email: params[:email]) }
 
         it_behaves_like 'user creation failed'
       end

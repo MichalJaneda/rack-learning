@@ -33,7 +33,7 @@ describe ValidationPost do
     context 'is taken' do
       let(:title) { 'Title' }
 
-      before { Query::Repository::Post.insert(title: 'Title', body: Faker::Lorem.word) }
+      before { create(:post, title: 'Title') }
 
       it { is_expected.to be_failure }
 

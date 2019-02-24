@@ -9,7 +9,10 @@ module Query
 
       # @return [Array<Model>]
       def call
-        entities.map { |e| model.new(e) }
+        entities.map do |e|
+          m = model.new
+          m.set_fields(e, e.keys)
+        end
       end
 
       private
