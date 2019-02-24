@@ -18,6 +18,7 @@ group :test do
   gem 'rspec'
   gem 'timecop'
   gem 'faker'
+  gem 'factory_bot'
 end
 
 group :development, :test do

@@ -15,6 +15,8 @@ Sequel::Migrator.check_current(DATABASE_CONNECTION_CONTAINER.resolve(:connection
 SPECIAL_TEST_TYPES = %i(action task validation filter).freeze
 
 RSpec.configure do |config|
+  config.include FactoryBot::Syntax::Methods
+
   config.expect_with :rspec do |expectations|
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true
   end
@@ -28,6 +30,7 @@ RSpec.configure do |config|
   config.before(:suite) do
     DatabaseCleaner.strategy = :transaction
     DatabaseCleaner.clean_with(:truncation)
+    FactoryBot.find_definitions
   end
 
   config.around(:each) do |example|
