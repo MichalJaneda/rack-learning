@@ -1,5 +1,5 @@
 RSpec.describe Query::Repository::User do
-  describe '#with_comments' do
+  describe '.with_comments' do
     subject { described_class.with_posts }
 
     let!(:user_without_posts) { create(:user) }
@@ -18,7 +18,7 @@ RSpec.describe Query::Repository::User do
     end
   end
 
-  describe '#with_posts_having_views_over' do
+  describe '.with_posts_having_views_over' do
     let!(:author) { create(:user) }
     let!(:popular_post) { create(:post, author: author.email, views: views) }
     let!(:not_popular_post) { create(:post, author: author.email) }
@@ -36,7 +36,7 @@ RSpec.describe Query::Repository::User do
     end
   end
 
-  describe '#having_popular_posts' do
+  describe '.having_popular_posts' do
     let!(:popular_post_author) { create(:user) }
     let!(:not_popular_post_author) { create(:user) }
 
@@ -56,5 +56,25 @@ RSpec.describe Query::Repository::User do
 
       it { is_expected.to contain_exactly(popular_post_author) }
     end
+  end
+
+  describe '.eagerly_publishing' do
+    let!(:not_publishing_at_all) { create(:user) }
+    let!(:published_within_2_days) { create(:user) }
+    let!(:published_by_over_3_days) { create(:user) }
+
+    let(:days) { 1 }
+
+    subject { described_class.eagerly_publishing(days) }
+
+    before do
+      create(:post, author: published_within_2_days.email)
+      create(:post, author: published_within_2_days.email, created_at: DateTime.now - 1)
+
+      create(:post, author: published_by_over_3_days.email)
+      create(:post, author: published_by_over_3_days.email, created_at: DateTime.now - 4)
+    end
+
+    it { is_expected.to contain_exactly(published_within_2_days) }
   end
 end
