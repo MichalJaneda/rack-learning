@@ -6,6 +6,8 @@ FactoryBot.define do
 
     author { user.email }
 
+    created_at { DateTime.now }
+
     to_create(&:save)
   end
 end
